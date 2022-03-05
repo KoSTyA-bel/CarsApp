@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<CarsAppContext>(options => options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=CarsApp;Trusted_Connection=True;MultipleActiveResultSets=true;Connect Timeout=10000"));
+builder.Services.AddDbContext<CarsAppContext>(options => options.UseInMemoryDatabase("CarsApp"));
 
 builder.Services.AddTransient<IRepository<Engine>, EngineRepository>();
 builder.Services.AddTransient<IRepository<Car>, CarRepository>();
