@@ -1,21 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsApp", "CarsApp\CarsApp.csproj", "{FFD625F0-0F1B-4DCB-91ED-520437A7863C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsApp", "CarsApp\CarsApp.csproj", "{FFD625F0-0F1B-4DCB-91ED-520437A7863C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsApp.Businesslogic", "CarsApp.BusinessLogic\CarsApp.Businesslogic.csproj", "{AFF8754E-6149-498C-9374-1BA5B19A5569}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsApp.Businesslogic", "CarsApp.BusinessLogic\CarsApp.Businesslogic.csproj", "{AFF8754E-6149-498C-9374-1BA5B19A5569}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsApp.DataAnnotation", "CarsApp.DataAnnotation\CarsApp.DataAnnotation.csproj", "{67918AA5-500C-4328-AF6B-F7B8E948885E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsApp.DataAnnotation", "CarsApp.DataAnnotation\CarsApp.DataAnnotation.csproj", "{67918AA5-500C-4328-AF6B-F7B8E948885E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsApp.Tests", "CarsApp.Tests\CarsApp.Tests.csproj", "{78734425-990E-497F-AAD8-3763240EB7EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FFD625F0-0F1B-4DCB-91ED-520437A7863C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +29,15 @@ Global
 		{67918AA5-500C-4328-AF6B-F7B8E948885E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67918AA5-500C-4328-AF6B-F7B8E948885E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67918AA5-500C-4328-AF6B-F7B8E948885E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78734425-990E-497F-AAD8-3763240EB7EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78734425-990E-497F-AAD8-3763240EB7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78734425-990E-497F-AAD8-3763240EB7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78734425-990E-497F-AAD8-3763240EB7EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {295A7845-32FB-4AE3-858B-B12526AA1C32}
 	EndGlobalSection
 EndGlobal
