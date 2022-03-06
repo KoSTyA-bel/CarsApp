@@ -18,7 +18,7 @@ COPY CarsApp.BusinessLogic/. ./CarsApp.BusinessLogic/
 COPY CarsApp.DataAnnotation/. ./CarsApp.DataAnnotation/
 
 WORKDIR "/src/CarsApp"
-RUN dotnet build "CarsApp.csproj" -c Release -o /app
+RUN dotnet build "CarsApp.csproj" -c Release -o /app --no-restore
 
 FROM base AS final
 WORKDIR /app

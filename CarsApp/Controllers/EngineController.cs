@@ -3,6 +3,7 @@ using CarsApp.Businesslogic.Interfaces;
 using AutoMapper;
 using CarsApp.Businesslogic.Entities;
 using CarsApp.Models;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace CarsApp.Controllers;
 
@@ -18,7 +19,8 @@ public class EngineController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    [EnableQuery]
+    public async Task<IActionResult> GetAll()
     {
         var engines = await _engineService.GetAll();
 

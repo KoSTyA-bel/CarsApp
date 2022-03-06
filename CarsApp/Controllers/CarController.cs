@@ -3,6 +3,7 @@ using CarsApp.Businesslogic.Entities;
 using CarsApp.Businesslogic.Interfaces;
 using CarsApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace CarsApp.Controllers;
 
@@ -20,6 +21,7 @@ public class CarController : ControllerBase
     }
 
     [HttpGet]
+    [EnableQuery]
     public async Task<IActionResult> GelAll()
     {
         var cars = await _carService.GetAll();
