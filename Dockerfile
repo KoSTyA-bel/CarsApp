@@ -11,14 +11,13 @@ COPY *.sln .
 COPY CarsApp/*.csproj ./CarsApp/
 COPY CarsApp.BusinessLogic/*.csproj ./CarsApp.BusinessLogic/
 COPY CarsApp.DataAnnotation/*.csproj ./CarsApp.DataAnnotation/
-RUN dotnet restore
 
 COPY CarsApp/. ./CarsApp/
 COPY CarsApp.BusinessLogic/. ./CarsApp.BusinessLogic/
 COPY CarsApp.DataAnnotation/. ./CarsApp.DataAnnotation/
 
 WORKDIR "/src/CarsApp"
-RUN dotnet build "CarsApp.csproj" -c Release -o /app --no-restore
+RUN dotnet build "CarsApp.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
