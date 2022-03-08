@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BuissnesLogic\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CarsApp.DataAnnotation\CarsApp.DataAnnotation.csproj" />
     <ProjectReference Include="..\CarsApp\CarsApp.csproj" />
   </ItemGroup>
