@@ -22,7 +22,7 @@ public class CarController : ControllerBase
 
     [HttpGet]
     [EnableQuery]
-    public async Task<IActionResult> GelAll()
+    public async Task<IActionResult> GetAll()
     {
         var cars = await _carService.GetAll();
 
