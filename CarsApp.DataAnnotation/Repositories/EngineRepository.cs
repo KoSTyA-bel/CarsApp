@@ -16,7 +16,7 @@ public class EngineRepository : IRepository<Engine>
 
     public async void Create(Engine entity) => await _context.Engines.AddAsync(entity ?? throw new ArgumentNullException(nameof(entity)));
 
-    public async Task Delete(int entityId)
+    public async void Delete(int entityId)
     {
         var engine = await _context.Engines.FirstOrDefaultAsync(engine => engine.Id == entityId);
 

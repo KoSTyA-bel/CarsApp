@@ -8,7 +8,7 @@ public interface IRepository<T> where T : class
 
     void Update(T entity);
 
-    Task Delete(int entityId);
+    void Delete(int entityId);
 
     Task<IEnumerable<T>> GetAll();
 }

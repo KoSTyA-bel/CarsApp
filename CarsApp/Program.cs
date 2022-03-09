@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // builder.Services.AddDbContext<CarsAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
-builder.Services.AddDbContext<CarsAppContext>(options => options.UseInMemoryDatabase("CarsApp"));
+builder.Services.AddDbContext<CarsAppContext>(options => options.UseInMemoryDatabase("CarsApp"), ServiceLifetime.Scoped);
 
 builder.Services.AddTransient<IRepository<Engine>, EngineRepository>();
 builder.Services.AddTransient<IRepository<Car>, CarRepository>();
@@ -24,7 +24,7 @@ builder.Services.AddControllers().AddOData(options => options.Select().OrderBy()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); //This line
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
 builder.Services.AddMvc();
 

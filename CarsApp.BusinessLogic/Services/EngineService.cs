@@ -28,7 +28,7 @@ public class EngineService : IService<Engine>
 
     public async Task<int> Delete(int id)
     {
-        await _repository.Delete(id);
+        _repository.Delete(id);
 
         if (await _unitOfWork.Save() == 1)
         {

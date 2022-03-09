@@ -16,7 +16,7 @@ public class CarRepository : IRepository<Car>
 
     public async void Create(Car entity) => await _context.Cars.AddAsync(entity ?? throw new ArgumentNullException(nameof(entity)));
 
-    public async Task Delete(int entityId)
+    public async void Delete(int entityId)
     {
         var car = await _context.Cars.FirstOrDefaultAsync(car => car.Id == entityId);
 
