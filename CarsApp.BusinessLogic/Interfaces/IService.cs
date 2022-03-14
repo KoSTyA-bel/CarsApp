@@ -12,10 +12,10 @@ namespace CarsApp.Businesslogic.Interfaces
 
         Task<int> Update(T entity);
 
-        Task<int> Delete(int id);
+        Task<int> Delete(T entity);
 
-        Task<IEnumerable<T>> GetAll();
+        Task<List<T>> GetAll();
 
-        Task<T> GetById(int id);
+        Task<T?> GetById(int id);
     }
 }

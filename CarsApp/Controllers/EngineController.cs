@@ -12,10 +12,12 @@ namespace CarsApp.Controllers;
 public class EngineController : ControllerBase
 {
     private readonly IService<Engine> _engineService;
+    private readonly IMapper _mapper;
 
-    public EngineController(IService<Engine> engineService)
+    public EngineController(IService<Engine> engineService, IMapper mapper)
     {
         _engineService = engineService ?? throw new ArgumentNullException(nameof(engineService));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     [HttpGet]
@@ -34,8 +36,7 @@ public class EngineController : ControllerBase
             return NoContent();
         }
 
-        var mapper = new MapperConfiguration(config => config.CreateMap<Engine, EngineViewModel>()).CreateMapper();
-        var viewModels = mapper.Map<IEnumerable<Engine>, IEnumerable<EngineViewModel>>(engines);
+        var viewModels = _mapper.Map<IEnumerable<EngineViewModel>>(engines);
 
         return Ok(viewModels);
     }
@@ -50,9 +51,7 @@ public class EngineController : ControllerBase
         {
             return NotFound();
         }
-
-        var mapper = new MapperConfiguration(config => config.CreateMap<Engine, EngineViewModel>()).CreateMapper();
-        var viewModel = mapper.Map<Engine, EngineViewModel>(engine);
+        var viewModel = _mapper.Map<EngineViewModel>(engine);
 
         return Ok(viewModel);
     }
@@ -65,10 +64,11 @@ public class EngineController : ControllerBase
             return BadRequest();
         }
 
-        var mapper = new MapperConfiguration(config => config.CreateMap<EngineViewModel, Engine>()).CreateMapper();
-        var engine = mapper.Map<EngineViewModel, Engine>(model);
-         
-        return Ok(await _engineService.Create(engine));
+        var engine = _mapper.Map<Engine>(model);
+
+        await _engineService.Create(engine);
+
+        return Ok(engine.Id);
     }
 
     [HttpPut]
@@ -78,9 +78,7 @@ public class EngineController : ControllerBase
         {
             return BadRequest(model);
         }
-
-        var mapper = new MapperConfiguration(config => config.CreateMap<EngineViewModel, Engine>()).CreateMapper();
-        var engine = mapper.Map<EngineViewModel, Engine>(model);
+        var engine = _mapper.Map<Engine>(model);
 
         return Ok(await _engineService.Update(engine));
     }
@@ -89,7 +87,16 @@ public class EngineController : ControllerBase
     [Route("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        return Ok(await _engineService.Delete(id));
+        var engine = await _engineService.GetById(id);
+
+        if (engine is null)
+        {
+            return NotFound();
+        }
+
+        await _engineService.Delete(engine);
+
+        return Ok(id);
     }
 }
 

@@ -83,6 +83,8 @@ namespace CarsApp.Tests.Controllers
         [Order(4)]
         public void UpdateTest()
         {
+            // TODO
+            // Fix that place.
             for (int i = 1; i <= Cars().Count(); i++)
             {
                 var getResult = _controller.Get(i).GetAwaiter().GetResult();

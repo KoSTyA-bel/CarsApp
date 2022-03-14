@@ -2,8 +2,6 @@
 
 public interface IUnitOfWork
 {
-    event Action<object, int>? OnComplete;
-
     Task<int> Save();
 }
 

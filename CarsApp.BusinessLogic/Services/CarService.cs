@@ -14,43 +14,25 @@ public class CarService : IService<Car>
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public async Task<int> Create(Car car)
+    public Task<int> Create(Car car)
     {
         _repository.Create(car);
-
-        if (await _unitOfWork.Save() == 1)
-        {
-            return car.Id;
-        }
-
-        return -1;
+        return _unitOfWork.Save();
     }
 
-    public async Task<int> Delete(int id)
+    public Task<int> Delete(Car car)
     {
-        _repository.Delete(id);
-
-        if (await _unitOfWork.Save() == 1)
-        {
-            return id;
-        }
-
-        return -1;
+        _repository.Delete(car);
+        return _unitOfWork.Save();
     }
 
-    public async Task<IEnumerable<Car>> GetAll() => await _repository.GetAll();
+    public Task<List<Car>> GetAll() => _repository.GetAll();
 
-    public async Task<Car> GetById(int id) => await _repository.GetById(id);
+    public Task<Car?> GetById(int id) => _repository.GetById(id);
 
-    public async Task<int> Update(Car car)
+    public Task<int> Update(Car car)
     {
         _repository.Update(car);
-
-        if (await _unitOfWork.Save() == 1)
-        {
-            return car.Id;
-        }
-
-        return -1;
+        return _unitOfWork.Save();
     }
 }

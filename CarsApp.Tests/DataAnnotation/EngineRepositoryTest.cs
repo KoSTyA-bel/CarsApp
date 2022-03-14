@@ -72,8 +72,14 @@ namespace CarsApp.Tests.DataAnnotation
         {
             for (int i = Engines().Count() * 3; i > 0; i--)
             {
-                _repository.Delete(i);
-                Assert.AreEqual(null, await _repository.GetById(i));
+                var engine = await _repository.GetById(i);
+
+                if (engine != null)
+                {
+                    _repository.Delete(engine);
+                }
+
+                Assert.Null(await _repository.GetById(i));
             }
         }
     }

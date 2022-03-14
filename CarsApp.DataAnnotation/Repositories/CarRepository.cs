@@ -14,35 +14,24 @@ public class CarRepository : IRepository<Car>
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async void Create(Car entity) => await _context.Cars.AddAsync(entity ?? throw new ArgumentNullException(nameof(entity)));
+    public void Create(Car entity) => _context.Cars.AddAsync(entity ?? throw new ArgumentNullException(nameof(entity)));
 
-    public async void Delete(int entityId)
+    public void Delete(Car entity)
     {
-        var car = await _context.Cars.FirstOrDefaultAsync(car => car.Id == entityId);
-
-        if (car != null)
-        {
-            _context.Cars.Remove(car);
-        }
+        _context.Remove(entity);
     }
 
-    public async Task<IEnumerable<Car>> GetAll() => _context.Cars;
+    public Task<List<Car>> GetAll() => _context.Cars.ToListAsync();
 
-    public async Task<Car> GetById(int entityId) => await _context.Cars.FirstOrDefaultAsync(c => c.Id == entityId);
+    public Task<Car?> GetById(int entityId) => _context.Cars.FirstOrDefaultAsync(c => c.Id == entityId);
 
-    public async void Update(Car entity)
+    public void Update(Car entity)
     {
-        if (entity is null)
+        if (_context.Entry(entity).State == EntityState.Detached)
         {
-            throw new ArgumentNullException(nameof(entity));
+            _context.Attach(entity);
         }
 
-        var car = await _context.Cars.FirstOrDefaultAsync(car => car.Id == entity.Id);
-
-        if (car != null)
-        {
-            car.Name = entity.Name;
-            car.EngineId = entity.EngineId;
-        }
+        _context.Entry(entity).State = EntityState.Modified;
     }
 }

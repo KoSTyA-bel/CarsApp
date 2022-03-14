@@ -14,44 +14,26 @@ public class EngineService : IService<Engine>
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public async Task<int> Create(Engine engine)
+    public Task<int> Create(Engine engine)
     {
         _repository.Create(engine);
-
-        if (await _unitOfWork.Save() == 1)
-        {
-            return engine.Id;
-        }
-
-        return -1;
+        return _unitOfWork.Save();
     }
 
-    public async Task<int> Delete(int id)
+    public Task<int> Delete(Engine engine)
     {
-        _repository.Delete(id);
-
-        if (await _unitOfWork.Save() == 1)
-        {
-            return id;
-        }
-
-        return -1;
+        _repository.Delete(engine);
+        return _unitOfWork.Save();
     }
 
-    public async Task<IEnumerable<Engine>> GetAll() => await _repository.GetAll();
+    public Task<List<Engine>> GetAll() => _repository.GetAll();
 
-    public Task<Engine> GetById(int id) => _repository.GetById(id);
+    public Task<Engine?> GetById(int id) => _repository.GetById(id);
 
-    public async Task<int> Update(Engine engine)
+    public Task<int> Update(Engine engine)
     {
         _repository.Update(engine);
-
-        if (await _unitOfWork.Save() == 1)
-        {
-            return engine.Id;
-        }
-
-        return -1;
+        return _unitOfWork.Save();
     }
 }
 

@@ -14,34 +14,29 @@ public class EngineRepository : IRepository<Engine>
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async void Create(Engine entity) => await _context.Engines.AddAsync(entity ?? throw new ArgumentNullException(nameof(entity)));
+    public void Create(Engine entity) => _context.Engines.AddAsync(entity ?? throw new ArgumentNullException(nameof(entity)));
 
-    public async void Delete(int entityId)
+    public void Delete(Engine entity)
     {
-        var engine = await _context.Engines.FirstOrDefaultAsync(engine => engine.Id == entityId);
-
-        if (engine != null)
-        {
-            _context.Remove(engine);
-        }
+        _context.Remove(entity);
     }
 
-    public async Task<IEnumerable<Engine>> GetAll() => _context.Engines;
+    public Task<List<Engine>> GetAll() => _context.Engines.ToListAsync();
 
-    public async Task<Engine> GetById(int entityId) => await _context.Engines.FirstOrDefaultAsync(engine => engine.Id == entityId);
+    public Task<Engine?> GetById(int entityId) => _context.Engines.FirstOrDefaultAsync(engine => engine.Id == entityId);
 
-    public async void Update(Engine entity)
+    public void Update(Engine entity)
     {
         if (entity is null)
         {
             throw new ArgumentNullException(nameof(entity));
         }
 
-        var engine = await _context.Engines.FirstOrDefaultAsync(engine => engine.Id == entity.Id);
-
-        if (engine != null)
+        if (_context.Entry(entity).State == EntityState.Detached)
         {
-            engine.Name = entity.Name;
+            _context.Attach(entity);
         }
+
+        _context.Entry(entity).State = EntityState.Modified;
     }
 }

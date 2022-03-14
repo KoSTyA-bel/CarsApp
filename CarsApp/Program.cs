@@ -5,6 +5,7 @@ using CarsApp.DataAnnotation.Contexts;
 using CarsApp.DataAnnotation.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OData;
+using CarsApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 // builder.Services.AddDbContext<CarsAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
 builder.Services.AddDbContext<CarsAppContext>(options => options.UseInMemoryDatabase("CarsApp"), ServiceLifetime.Scoped);
 
-builder.Services.AddTransient<IRepository<Engine>, EngineRepository>();
-builder.Services.AddTransient<IRepository<Car>, CarRepository>();
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-builder.Services.AddTransient<IService<Engine>, EngineService>();
-builder.Services.AddTransient<IService<Car>, CarService>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.AddScoped<IRepository<Engine>, EngineRepository>();
+builder.Services.AddScoped<IRepository<Car>, CarRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IService<Engine>, EngineService>();
+builder.Services.AddScoped<IService<Car>, CarService>();
 
 builder.Services.AddControllers();
 builder.Services.AddControllers().AddOData(options => options.Select().OrderBy().Filter());

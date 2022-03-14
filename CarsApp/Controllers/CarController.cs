@@ -11,13 +11,15 @@ namespace CarsApp.Controllers;
 [ApiController]
 public class CarController : ControllerBase
 {
-    private IService<Car> _carService;
-    private IService<Engine> _engineService;
+    private readonly IService<Car> _carService;
+    private readonly IService<Engine> _engineService;
+    private IMapper _mapper;
 
-    public CarController(IService<Car> carService, IService<Engine> engineService)
+    public CarController(IService<Car> carService, IService<Engine> engineService, IMapper mapper)
     {
         _carService = carService ?? throw new ArgumentNullException(nameof(carService));
         _engineService = engineService ?? throw new ArgumentNullException(nameof(engineService));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     [HttpGet]
@@ -36,8 +38,7 @@ public class CarController : ControllerBase
             return NoContent();
         }
 
-        var mapper = new MapperConfiguration(config => config.CreateMap<Car, CarViewModel>()).CreateMapper();
-        var viewModels = mapper.Map<IEnumerable<Car>, IEnumerable<CarViewModel>>(cars);
+        var viewModels = _mapper.Map<IEnumerable<CarViewModel>>(cars);
 
         return Ok(viewModels);
     }
@@ -53,8 +54,7 @@ public class CarController : ControllerBase
             return NotFound();
         }
 
-        var mapper = new MapperConfiguration(config => config.CreateMap<Car, CarViewModel>()).CreateMapper();
-        var viewModel = mapper.Map<Car, CarViewModel>(car);
+        var viewModel = _mapper.Map<CarViewModel>(car);
 
         return Ok(viewModel);
     }
@@ -74,12 +74,12 @@ public class CarController : ControllerBase
             return NoContent();
         }
 
-        var mapper = new MapperConfiguration(config => config.CreateMap<CarViewModel, Car>()).CreateMapper();
-        var car = mapper.Map<CarViewModel, Car>(model);
+        var car = _mapper.Map<Car>(model);
 
         car.Engine = engine;
+        await _carService.Create(car);
 
-        return Ok(await _carService.Create(car));
+        return Ok(car.Id);
     }
 
     [HttpPut]
@@ -97,19 +97,28 @@ public class CarController : ControllerBase
             return NoContent();
         }
 
-        var mapper = new MapperConfiguration(config => config.CreateMap<CarViewModel, Car>()).CreateMapper();
-        var car = mapper.Map<CarViewModel, Car>(model);
+        var car = _mapper.Map<Car>(model);
 
-        car.Engine = engine;        
+        car.Engine = engine;
+        await _carService.Update(car);
 
-        return Ok(await _carService.Update(car));
+        return Ok(car.Id);
     }
 
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        return Ok(await _carService.Delete(id));
+        var car = await _carService.GetById(id);
+        
+        if (car is null)
+        {
+            return NotFound();
+        }
+
+        await _carService.Delete(car);
+
+        return Ok(id);
     }
 }
 

@@ -17,15 +17,6 @@ namespace CarsApp.DataAnnotation.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public event Action<object, int>? OnComplete;
-
-        public async Task<int> Save()
-        {
-            var res = await _context.SaveChangesAsync();
-
-            OnComplete?.Invoke(this, res);
-
-            return res;
-        }
+        public Task<int> Save() => _context.SaveChangesAsync();
     }
 }
