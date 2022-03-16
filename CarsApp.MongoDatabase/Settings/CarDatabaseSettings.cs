@@ -16,6 +16,11 @@ public class CarDatabaseSettings : IMongoDatabaseSettings<Car>
     private string _login = null!;
     private string _password = null!;
 
+    public CarDatabaseSettings()
+        : this(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty)
+    {
+    }
+
     public CarDatabaseSettings(string collectionName, string connectionString, string databaseName, string login, string password)
     {
         CollectionName = collectionName;

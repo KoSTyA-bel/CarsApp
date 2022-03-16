@@ -14,12 +14,10 @@ public class EngineController : ControllerBase
 {
     private readonly IService<Engine> _engineService;
     private readonly IMapper _mapper;
-    private readonly EngineServiceMongo _mongo;
 
-    public EngineController(IService<Engine> engineService, EngineServiceMongo mongo, IMapper mapper)
+    public EngineController(IService<Engine> engineService, IMapper mapper)
     {
         _engineService = engineService ?? throw new ArgumentNullException(nameof(engineService));
-        _mongo = mongo ?? throw new ArgumentNullException(nameof(mongo));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
@@ -27,10 +25,6 @@ public class EngineController : ControllerBase
     [EnableQuery]
     public async Task<IActionResult> GetAll()
     {
-        var engine = _mongo.Get();
-        var viewModel = _mapper.Map<IEnumerable<EngineViewModel>>(engine);
-        return Ok(viewModel);
-
         var engines = await _engineService.GetAll();
 
         if (engines is null)
@@ -66,10 +60,6 @@ public class EngineController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(EngineViewModel model)
     {
-        var engines = _mapper.Map<Engine>(model);
-        _mongo.Create(engines);
-        return Ok();
-
         if (!ModelState.IsValid)
         {
             return BadRequest();

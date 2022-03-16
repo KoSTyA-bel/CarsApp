@@ -15,7 +15,7 @@ public abstract class CollectionBuilder<T> : IMongoCollectionBuilder<T> where T 
 
     protected CollectionBuilder(IMongoDatabaseSettings<T> settings)
     {
-        Settings = _settings;
+        Settings = settings;
     }
 
     public IMongoDatabaseSettings<T> Settings 
@@ -37,6 +37,6 @@ public abstract class CollectionBuilder<T> : IMongoCollectionBuilder<T> where T 
         var client = new MongoClient(_settings.ConnectionString);
         var database = client.GetDatabase(_settings.DatabaseName);
 
-        return database.GetCollection<T>(_settings.DatabaseName);
+        return database.GetCollection<T>(_settings.CollectionName);
     }
 }
