@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsApp.Businesslogic", "Ca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsApp.DataAnnotation", "CarsApp.DataAnnotation\CarsApp.DataAnnotation.csproj", "{67918AA5-500C-4328-AF6B-F7B8E948885E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsApp.Tests", "CarsApp.Tests\CarsApp.Tests.csproj", "{78734425-990E-497F-AAD8-3763240EB7EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsApp.Tests", "CarsApp.Tests\CarsApp.Tests.csproj", "{78734425-990E-497F-AAD8-3763240EB7EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsApp.MongoDatabase", "CarsApp.MongoDatabase\CarsApp.MongoDatabase.csproj", "{2D1F02DC-2DDA-44F8-9A3E-C3333E741B84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{78734425-990E-497F-AAD8-3763240EB7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78734425-990E-497F-AAD8-3763240EB7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78734425-990E-497F-AAD8-3763240EB7EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D1F02DC-2DDA-44F8-9A3E-C3333E741B84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D1F02DC-2DDA-44F8-9A3E-C3333E741B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D1F02DC-2DDA-44F8-9A3E-C3333E741B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D1F02DC-2DDA-44F8-9A3E-C3333E741B84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

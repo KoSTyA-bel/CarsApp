@@ -10,15 +10,19 @@ namespace CarsApp.Businesslogic.Settings;
 
 public class CarDatabaseSettings : IMongoDatabaseSettings<Car>
 {
-    private string _collectionName;
-    private string _connectionString;
-    private string _databaseName;
+    private string _collectionName = null!;
+    private string _connectionString = null!;
+    private string _databaseName = null!;
+    private string _login = null!;
+    private string _password = null!;
 
-    public CarDatabaseSettings(string collectionName, string connectionString, string databaseName)
+    public CarDatabaseSettings(string collectionName, string connectionString, string databaseName, string login, string password)
     {
-        _collectionName = collectionName ?? throw new ArgumentNullException(nameof(collectionName));
-        _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
-        _databaseName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));
+        CollectionName = collectionName;
+        ConnectionString = connectionString;
+        DatabaseName = databaseName;
+        Login = login;
+        Password = password;
     }
 
     public string CollectionName 
@@ -60,6 +64,34 @@ public class CarDatabaseSettings : IMongoDatabaseSettings<Car>
             }
 
             _databaseName = value;
+        }
+    }
+
+    public string Login 
+    { 
+        get => _login;
+        set
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            _login = value;
+        }
+    }
+
+    public string Password 
+    { 
+        get => _password; 
+        set
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            _password = value;
         }
     }
 }

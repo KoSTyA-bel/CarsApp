@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CarsApp.BusinessLogic\CarsApp.Businesslogic.csproj" />
     <ProjectReference Include="..\CarsApp.DataAnnotation\CarsApp.DataAnnotation.csproj" />
+    <ProjectReference Include="..\CarsApp.MongoDatabase\CarsApp.MongoDatabase.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

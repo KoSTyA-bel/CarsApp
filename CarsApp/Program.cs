@@ -6,11 +6,19 @@ using CarsApp.DataAnnotation.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OData;
 using CarsApp;
+using CarsApp.Businesslogic.Settings;
+using Microsoft.Extensions.Options;
+using CarsApp.MongoDatabase.MongoCollectionBuilders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // builder.Services.AddDbContext<CarsAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+builder.Services.Configure<EngineDatabaseSettings>(builder.Configuration.GetSection(nameof(EngineDatabaseSettings)));
+builder.Services.AddSingleton<IMongoDatabaseSettings<Engine>>(sp => sp.GetRequiredService<IOptions<EngineDatabaseSettings>>().Value);
+builder.Services.AddSingleton<IMongoCollectionBuilder<Engine>, EnginesCollectionBuilder>();
+builder.Services.AddSingleton<EngineServiceMongo>();
+
 builder.Services.AddDbContext<CarsAppContext>(options => options.UseInMemoryDatabase("CarsApp"), ServiceLifetime.Scoped);
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));

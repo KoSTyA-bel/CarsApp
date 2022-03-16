@@ -13,5 +13,9 @@ namespace CarsApp.Businesslogic.Interfaces
         string ConnectionString { get; set; }
 
         string DatabaseName { get; set; }
+
+        string Login { get; set; }
+
+        string Password { get; set; }        
     }
 }
