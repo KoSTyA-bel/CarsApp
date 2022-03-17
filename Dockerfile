@@ -1,5 +1,3 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
@@ -11,13 +9,16 @@ COPY *.sln .
 COPY CarsApp/*.csproj ./CarsApp/
 COPY CarsApp.BusinessLogic/*.csproj ./CarsApp.BusinessLogic/
 COPY CarsApp.DataAnnotation/*.csproj ./CarsApp.DataAnnotation/
+COPY CarsApp.MongoDatabase/*.csproj ./CarsApp.MongoDatabase/
+RUN dotnet restore ./CarsApp/CarsApp.csproj
 
 COPY CarsApp/. ./CarsApp/
 COPY CarsApp.BusinessLogic/. ./CarsApp.BusinessLogic/
 COPY CarsApp.DataAnnotation/. ./CarsApp.DataAnnotation/
+COPY CarsApp.MongoDatabase/. ./CarsApp.MongoDatabase/
 
 WORKDIR "/src/CarsApp"
-RUN dotnet build "CarsApp.csproj" -c Release -o /app
+RUN dotnet build "CarsApp.csproj" -c Release -o /app --no-restore
 
 FROM base AS final
 WORKDIR /app
