@@ -77,9 +77,9 @@ public class CarController : ControllerBase
         var car = _mapper.Map<Car>(model);
 
         car.Engine = engine;
-        await _carService.Create(car);
+        var added = await _carService.Create(car);
 
-        return Ok(car.Id);
+        return Ok(added.Id);
     }
 
     [HttpPut]
@@ -102,7 +102,7 @@ public class CarController : ControllerBase
         car.Engine = engine;
         await _carService.Update(car);
 
-        return Ok(car.Id);
+        return Ok(_mapper.Map<CarViewModel>(car));
     }
 
     [HttpDelete]

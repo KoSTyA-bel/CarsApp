@@ -67,9 +67,9 @@ public class EngineController : ControllerBase
 
         var engine = _mapper.Map<Engine>(model);
 
-        await _engineService.Create(engine);
+        var added = await _engineService.Create(engine);
 
-        return Ok(engine.Id);
+        return Ok(added.Id);
     }
 
     [HttpPut]
@@ -81,7 +81,9 @@ public class EngineController : ControllerBase
         }
         var engine = _mapper.Map<Engine>(model);
 
-        return Ok(await _engineService.Update(engine));
+        await _engineService.Update(engine);
+
+        return Ok(_mapper.Map<EngineViewModel>(engine));
     }
 
     [HttpDelete]

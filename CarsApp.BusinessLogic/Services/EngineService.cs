@@ -3,36 +3,32 @@ using CarsApp.Businesslogic.Interfaces;
 
 namespace CarsApp.Businesslogic.Services;
 
-public class EngineService : IService<Engine>
+public class EngineService : AbstractService<Engine>
 {
-    private readonly IRepository<Engine> _repository;
     private readonly IUnitOfWork _unitOfWork;
 
     public EngineService(IRepository<Engine> repository, IUnitOfWork unitOfWork)
+        : base(repository)
     {
-        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public Task<int> Create(Engine engine)
+    public override async Task<Engine> Create(Engine engine)
     {
-        _repository.Create(engine);
+        var entity = CreateEntity(engine);
+        await _unitOfWork.Save();
+        return entity;
+    }
+
+    public override Task Delete(Engine engine)
+    {
+        DeleteEntity(engine);
         return _unitOfWork.Save();
     }
 
-    public Task<int> Delete(Engine engine)
+    public override Task Update(Engine engine)
     {
-        _repository.Delete(engine);
-        return _unitOfWork.Save();
-    }
-
-    public Task<List<Engine>> GetAll() => _repository.GetAll();
-
-    public Task<Engine?> GetById(int id) => _repository.GetById(id);
-
-    public Task<int> Update(Engine engine)
-    {
-        _repository.Update(engine);
+        UpdateEntity(engine);
         return _unitOfWork.Save();
     }
 }

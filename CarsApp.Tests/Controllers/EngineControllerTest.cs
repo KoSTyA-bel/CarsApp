@@ -39,7 +39,7 @@ namespace CarsApp.Tests.Controllers
             var context = new CarsAppContext(builder.Options);
             _engineRepository = new EngineRepository(context);
             var unit = new UnitOfWork(context);
-            var service = new EngineService(_engineRepository, unit);
+            var service = new EngineServiceMongo(_engineRepository, unit);
             _controller = new EngineController(service);
         }
 

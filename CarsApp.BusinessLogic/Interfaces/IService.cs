@@ -8,11 +8,11 @@ namespace CarsApp.Businesslogic.Interfaces
 {
     public interface IService<T> where T : class
     {
-        Task<int> Create(T entity);
+        Task<T> Create(T entity);
 
-        Task<int> Update(T entity);
+        Task Update(T entity);
 
-        Task<int> Delete(T entity);
+        Task Delete(T entity);
 
         Task<List<T>> GetAll();
 
