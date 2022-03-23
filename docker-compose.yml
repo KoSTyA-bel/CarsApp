@@ -1,0 +1,14 @@
+version: '3'
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=kostya
+      - MONGO_INITDB_ROOT_PASSWORD=new-password
+      - MONGO_INITDB_DATABASE=admin
+    volumes:
+      - ${MONGO_HOST_DATA}/db:/data/db
+    ports:
+      - "27017:27017"
+    
