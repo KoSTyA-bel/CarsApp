@@ -1,21 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace CarsApp.Businesslogic.Interfaces;
 
-namespace CarsApp.Businesslogic.Interfaces
+/// <summary>
+/// Provides methods for working with service.
+/// </summary>
+/// <typeparam name="T">Entity type.</typeparam>
+public interface IService<T> where T : class
 {
-    public interface IService<T> where T : class
-    {
-        Task<T> Create(T entity);
+    /// <summary>
+    /// Creates a new entity in repository.
+    /// </summary>
+    /// <param name="entity">Entity to be added to repository.</param>
+    /// <returns>Task of creating an entity.</returns>
+    Task<T> Create(T entity);
 
-        Task Update(T entity);
+    /// <summary>
+    /// Updates entity data in repository.
+    /// </summary>
+    /// <param name="entity">Entity whose data needs to be updated in repository.</param>
+    /// <returns>Task to update entity.</returns>
+    Task Update(T entity);
 
-        Task Delete(T entity);
+    /// <summary>
+    /// Removes entity from repository.
+    /// </summary>
+    /// <param name="entity">Entity to be deleted from repository.</param>
+    /// <returns>Task of deleting an entity.</returns>
+    Task Delete(T entity);
 
-        Task<List<T>> GetAll();
+    /// <summary>
+    /// Retrieves all entities located in repository.
+    /// </summary>
+    /// <returns>List of all entities.</returns>
+    Task<List<T>> GetAll();
 
-        Task<T?> GetById(int id);
-    }
+    /// <summary>
+    /// Searches for an entity with a specific Id in repository.
+    /// </summary>
+    /// <param name="id">Id of entity being searched for.</param>
+    /// <returns>Entity if an entity with the passed id exists, null in other cases.</returns>
+    Task<T?> GetById(int id);
 }

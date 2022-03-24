@@ -1,21 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace CarsApp.Businesslogic.Interfaces;
 
-namespace CarsApp.Businesslogic.Interfaces
+/// <summary>
+/// Represents properties for storing settings of database.
+/// </summary>
+/// <typeparam name="T">Entity type.</typeparam>
+public interface IMongoDatabaseSettings<T> where T : class
 {
-    public interface IMongoDatabaseSettings<T> where T: class 
-    {
-        string CollectionName { get; set; }
+    /// <summary>
+    /// Collection name.
+    /// </summary>
+    string CollectionName { get; set; }
 
-        string ConnectionString { get; set; }
+    /// <summary>
+    /// Connecion string.
+    /// </summary>
+    string ConnectionString { get; set; }
 
-        string DatabaseName { get; set; }
+    /// <summary>
+    /// Database name.
+    /// </summary>
+    string DatabaseName { get; set; }
 
-        string Login { get; set; }
+    /// <summary>
+    /// Admin login.
+    /// </summary>
+    string Login { get; set; }
 
-        string Password { get; set; }        
-    }
+    /// <summary>
+    /// Admin password.
+    /// </summary>
+    string Password { get; set; }
 }
