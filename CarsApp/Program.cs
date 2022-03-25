@@ -43,6 +43,7 @@ builder.Services.AddScoped<IService<Car>, CarService>();
 
 builder.Services.AddControllers();
 builder.Services.AddControllers().AddOData(options => options.Select().OrderBy().Filter());
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
