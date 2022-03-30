@@ -1,28 +1,34 @@
-﻿using CarsApp.Businesslogic.Interfaces;
-using CarsApp.Businesslogic.Entities;
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using CarsApp.Businesslogic.Entities;
+using CarsApp.Businesslogic.Interfaces;
+using CarsApp.MongoDatabase.Settings;
 
-namespace CarsApp.MongoDatabase.Cache
+namespace CarsApp.MongoDatabase.Cache;
+
+public class EngineCache : ICache<Engine>
 {
-    public class EngineCache : ICache<Engine>
+    private const string StreamName = "CarsApp";
+    private const string GroupName = "Engines";
+    private readonly Dictionary<int, WeakReference> _cache;
+    private readonly object _locker = new();
+    private readonly CacheSettings _settings;
+
+    public EngineCache(CacheSettings settings)
     {
-        private Dictionary<int, WeakReference> _cache;
+        _cache = new();
+        _settings = settings;
+    }
 
-        public EngineCache()
-        {
-            _cache = new();
-        }
-
-        public void Delete(int id)
+    public void Delete(int id)
+    {
+        lock (_locker)
         {
             _cache.Remove(id);
         }
+    }
 
-        public Engine? Get(int id)
+    public Engine? Get(int id)
+    {
+        lock (_locker)
         {
             if (!_cache.ContainsKey(id))
             {
@@ -37,8 +43,11 @@ namespace CarsApp.MongoDatabase.Cache
 
             return _cache[id].Target as Engine;
         }
+    }
 
-        public void Set(Engine entity)
+    public void Set(Engine entity)
+    {
+        lock (_locker)
         {
             if (entity is null)
             {

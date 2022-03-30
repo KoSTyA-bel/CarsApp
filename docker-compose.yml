@@ -11,4 +11,10 @@ services:
       - ${MONGO_HOST_DATA}/db:/data/db
     ports:
       - "27017:27017"
-    
+  redis:
+    container_name: redis
+    image: redis:latest
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"
