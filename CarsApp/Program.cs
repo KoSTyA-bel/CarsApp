@@ -69,11 +69,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var cache = new EngineCache(new CacheSettings()
-{
-    Host = "localhost",
-    Port = "6379",
-});
-cache.Listen();
-
 app.Run();

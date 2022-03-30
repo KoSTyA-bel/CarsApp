@@ -7,4 +7,8 @@ public interface ICache<T> where T : class
     public T? Get(int id);
 
     public void Delete(int id);
+
+    public void ListenChannel();
+
+    public void ListenRedisStream();
 }
