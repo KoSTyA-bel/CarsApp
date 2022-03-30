@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.15.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.5.43" />
   </ItemGroup>
 
 </Project>

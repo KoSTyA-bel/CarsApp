@@ -15,4 +15,8 @@
     <ProjectReference Include="..\CarsApp.BusinessLogic\CarsApp.Businesslogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Caches\Consumers\" />
+  </ItemGroup>
+
 </Project>
