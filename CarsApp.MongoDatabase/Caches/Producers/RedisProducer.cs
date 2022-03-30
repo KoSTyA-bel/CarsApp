@@ -30,7 +30,7 @@ public class RedisProducer : IRedisProducer<Engine>
     {
         _database.StreamAdd(_settings.StreamName, new NameValueEntry[]
         {
-            new NameValueEntry(CacheFieldNames.Command, CacheCommandTypes.Delete),
+            new NameValueEntry(CacheFieldNames.Command, CacheCommandTypes.Insert),
             new NameValueEntry(CacheFieldNames.Id, entity.Id),
             new NameValueEntry(CacheFieldNames.Name, entity.Name),
         });

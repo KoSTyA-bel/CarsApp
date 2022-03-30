@@ -4,5 +4,5 @@ namespace CarsApp.Businesslogic.Interfaces;
 
 public interface IRedisConsumer<T> where T : class
 {
-    public NameValueEntry[] GetHandledElement();
+    public Task<NameValueEntry[]> GetHandledElement();
 }

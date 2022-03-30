@@ -4,8 +4,9 @@ public class CacheSettings
 {
     public CacheSettings()
     {
-        Host = String.Empty;
-        Port = String.Empty;
+        Host = string.Empty;
+        Port = string.Empty;
+        StreamName = string.Empty;
     }
 
     public string Host { get; set; }

@@ -53,11 +53,11 @@ public class EngineCache : ICache<Engine>
         _redisProducer.Insert(entity);
     }
 
-    public async void ListenChannel()
+    public async void ListenRedisStream()
     {
         while (true)
         {
-            var handeled = _redisConsumer.GetHandledElement();
+            var handeled = await _redisConsumer.GetHandledElement();
 
             if (!(handeled is null))
             {
@@ -66,7 +66,7 @@ public class EngineCache : ICache<Engine>
         }
     }
 
-    public async void ListenRedisStream()
+    public async void ListenChannel()
     {
         while (true)
         {

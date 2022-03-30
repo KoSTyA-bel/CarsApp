@@ -4,6 +4,8 @@ using CarsApp.Businesslogic.Interfaces;
 using CarsApp.Businesslogic.Services;
 using CarsApp.Businesslogic.Settings;
 using CarsApp.MongoDatabase.Cache;
+using CarsApp.MongoDatabase.Caches.Producers;
+using CarsApp.MongoDatabase.Caches.Consumers;
 using CarsApp.MongoDatabase.MongoCollectionBuilders;
 using CarsApp.MongoDatabase.Repositories;
 using CarsApp.MongoDatabase.Settings;
@@ -32,6 +34,8 @@ builder.Services.AddScoped<IRepository<Car>, CarRepositoryMongo>();
 builder.Services.AddScoped<IService<Engine>, EngineServiceMongo>();
 builder.Services.AddScoped<IService<Car>, CarServiceMongo>();
 builder.Services.AddSingleton<CacheSettings>(sp => sp.GetRequiredService<IOptions<CacheSettings>>().Value);
+builder.Services.AddSingleton<IRedisProducer<Engine>, RedisProducer>();
+builder.Services.AddSingleton<IRedisConsumer<Engine>, RedisConsumer>();
 builder.Services.AddSingleton<ICache<Engine>, EngineCache>();
 
 // MSSQL or InMemory
@@ -68,5 +72,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var cache = app.Services.GetService<ICache<Engine>>();
+
+cache.ListenChannel();
+cache.ListenRedisStream();
 
 app.Run();
