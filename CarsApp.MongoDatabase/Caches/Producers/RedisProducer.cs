@@ -19,20 +19,13 @@ public class RedisProducer : IRedisProducer<Engine>
 
     public void Delete(int entityId)
     {
-        _database.StreamAdd(_settings.StreamName, new NameValueEntry[]
-        {
-            new NameValueEntry(CacheFieldNames.Command, CacheCommandTypes.Delete),
-            new NameValueEntry(CacheFieldNames.Id, entityId),
-        });
+        var messgage = $"{CacheFieldNames.Command}:{CacheCommandTypes.Delete};{CacheFieldNames.Id}:{entityId}";
+        _database.Publish(_settings.StreamName, new RedisValue(messgage));
     }
 
     public void Insert(Engine entity)
     {
-        _database.StreamAdd(_settings.StreamName, new NameValueEntry[]
-        {
-            new NameValueEntry(CacheFieldNames.Command, CacheCommandTypes.Insert),
-            new NameValueEntry(CacheFieldNames.Id, entity.Id),
-            new NameValueEntry(CacheFieldNames.Name, entity.Name),
-        });
+        var message = $"{CacheFieldNames.Command}:{CacheCommandTypes.Insert};{CacheFieldNames.Id}:{entity.Id};{CacheFieldNames.Name}:{entity.Name}";
+        _database.Publish(_settings.StreamName, new RedisValue(message));
     }
 }

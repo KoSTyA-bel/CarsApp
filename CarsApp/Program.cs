@@ -76,6 +76,6 @@ app.MapControllers();
 var cache = app.Services.GetService<ICache<Engine>>();
 
 cache.ListenChannel();
-cache.ListenRedisStream();
+cache.ListenRedisChannel();
 
 app.Run();

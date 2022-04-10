@@ -3,6 +3,7 @@ using CarsApp.Businesslogic.Interfaces;
 using CarsApp.MongoDatabase.Settings;
 using System.Threading.Channels;
 using StackExchange.Redis;
+using CarsApp.MongoDatabase.Caches;
 
 namespace CarsApp.MongoDatabase.Cache;
 
@@ -14,12 +15,12 @@ public class EngineCache : ICache<Engine>
     private readonly object _locker = new();
     private readonly IRedisProducer<Engine> _redisProducer;
     private readonly IRedisConsumer<Engine> _redisConsumer;
-    private readonly Channel<NameValueEntry[]> _channel;
+    private readonly Channel<EngineStreamModel> _channel;
 
     public EngineCache(IRedisProducer<Engine> producer, IRedisConsumer<Engine> consumer)
     {
         _cache = new();
-        _channel = Channel.CreateUnbounded<NameValueEntry[]>();
+        _channel = Channel.CreateUnbounded<EngineStreamModel>();
         _redisProducer = producer ?? throw new ArgumentNullException(nameof(producer));
         _redisConsumer = consumer ?? throw new ArgumentNullException(nameof(consumer));
     }
@@ -53,17 +54,11 @@ public class EngineCache : ICache<Engine>
         _redisProducer.Insert(entity);
     }
 
-    public async void ListenRedisStream()
+    public async void ListenRedisChannel()
     {
-        while (true)
-        {
-            var handeled = await _redisConsumer.GetHandledElement();
+        _redisConsumer.OnNewDataHandled += ParseMessage;
 
-            if (!(handeled is null))
-            {
-                await _channel.Writer.WriteAsync(handeled);
-            }
-        }
+        _redisConsumer.StartListen();
     }
 
     public async void ListenChannel()
@@ -73,31 +68,30 @@ public class EngineCache : ICache<Engine>
             if (await _channel.Reader.WaitToReadAsync())
             {
                 var streamEntity = await _channel.Reader.ReadAsync();
-                var engine = Parse(streamEntity);
 
-                if (engine is null)
+                if (streamEntity is null)
                 {
-                    continue;
+                    break;
                 }
 
-                switch (streamEntity[0].Value.ToString())
+                switch (streamEntity.Command)
                 {
                     case CacheCommandTypes.Insert:
-                        SetEngineInCache(engine);
+                        SetEngineInCache(new Engine { Id = streamEntity.Id, Name = streamEntity.Name });
                         break;
                     case CacheCommandTypes.Delete:
-                        DeleteEngineFromCache(engine.Id);
+                        DeleteEngineFromCache(streamEntity.Id);
                         break;
                 }
             }
         }
     }
 
-    private Engine? Parse(NameValueEntry[] values) =>
-        values.Length switch
+    private EngineStreamModel? Parse(IDictionary<string, string> values) =>
+        values.Count switch
         {
-            3 => new Engine() { Id = int.Parse(values[1].Value), Name = values[2].Value },
-            2 => new Engine() { Id = int.Parse(values[1].Value) },
+            3 => new EngineStreamModel() { Command = values[CacheFieldNames.Command], Id = int.Parse(values[CacheFieldNames.Id]), Name = values[CacheFieldNames.Name] },
+            2 => new EngineStreamModel() { Command = values[CacheFieldNames.Command], Id = int.Parse(values[CacheFieldNames.Id]) },
             _ => null,
         };
 
@@ -123,5 +117,12 @@ public class EngineCache : ICache<Engine>
                 _cache.Add(engine.Id, new WeakReference(engine));
             }
         }
+    }
+
+    private void ParseMessage(object sender, string message)
+    {
+        var dict = message.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+               .Select(part => part.Split(':'))
+               .ToDictionary(split => split[0], split => split[1]);
     }
 }

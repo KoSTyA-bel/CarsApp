@@ -10,5 +10,5 @@ public interface ICache<T> where T : class
 
     public void ListenChannel();
 
-    public void ListenRedisStream();
+    public void ListenRedisChannel();
 }
