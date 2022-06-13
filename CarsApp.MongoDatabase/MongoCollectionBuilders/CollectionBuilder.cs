@@ -34,7 +34,7 @@ public abstract class CollectionBuilder<T> : IMongoCollectionBuilder<T> where T 
 
     public IMongoCollection<T> GetCollection()
     {
-        var client = new MongoClient(_settings.ConnectionString);
+        var client = new MongoClient($"mongodb://{_settings.Login}:{_settings.Password}@{_settings.Ip}:{_settings.Port}");
         var database = client.GetDatabase(_settings.DatabaseName);
 
         return database.GetCollection<T>(_settings.CollectionName);

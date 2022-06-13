@@ -11,20 +11,22 @@ namespace CarsApp.Businesslogic.Settings;
 public class CarDatabaseSettings : IMongoDatabaseSettings<Car>
 {
     private string _collectionName = null!;
-    private string _connectionString = null!;
+    private string _ip = null!;
+    private int _port;
     private string _databaseName = null!;
     private string _login = null!;
     private string _password = null!;
 
     public CarDatabaseSettings()
-        : this(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty)
+        : this(string.Empty, string.Empty, 0, string.Empty, string.Empty, string.Empty)
     {
     }
 
-    public CarDatabaseSettings(string collectionName, string connectionString, string databaseName, string login, string password)
+    public CarDatabaseSettings(string collectionName, string ip, int port, string databaseName, string login, string password)
     {
         CollectionName = collectionName;
-        ConnectionString = connectionString;
+        Ip = ip;
+        Port = port;
         DatabaseName = databaseName;
         Login = login;
         Password = password;
@@ -44,9 +46,9 @@ public class CarDatabaseSettings : IMongoDatabaseSettings<Car>
         }
     }
 
-    public string ConnectionString 
+    public string Ip 
     { 
-        get => _connectionString;
+        get => _ip;
         set
         {
             if (value is null)
@@ -54,7 +56,21 @@ public class CarDatabaseSettings : IMongoDatabaseSettings<Car>
                 throw new ArgumentNullException(nameof(value));
             }
 
-            _connectionString = value;
+            _ip = value;
+        }
+    }
+
+    public int Port
+    {
+        get => _port;
+        set
+        {
+            if (value < 0)
+            {
+                throw new ArgumentException(nameof(value));
+            }
+
+            _port = value;
         }
     }
 

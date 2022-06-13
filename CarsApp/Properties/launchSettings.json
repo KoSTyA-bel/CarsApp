@@ -14,7 +14,11 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CARSAPP_Mongo_Ip": "127.0.0.1",
+        "CARSAPP_Mongo_Port": "27017",
+        "CARSAPP_Redis_Ip": "127.0.0.1",
+        "CARSAPP_Redis_Port": "6379"
       },
       "applicationUrl": "https://localhost:7204;http://localhost:5028",
       "dotnetRunMessages": true

@@ -14,7 +14,12 @@ public interface IMongoDatabaseSettings<T> where T : class
     /// <summary>
     /// Connecion string.
     /// </summary>
-    string ConnectionString { get; set; }
+    string Ip { get; set; }
+
+    /// <summary>
+    /// Port.
+    /// </summary>
+    int Port { get; set; }
 
     /// <summary>
     /// Database name.

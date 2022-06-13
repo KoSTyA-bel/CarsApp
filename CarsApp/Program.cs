@@ -14,6 +14,12 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.ConfigureAppConfiguration(config =>
+{
+    var prefis = "CARSAPP_";
+    config.AddEnvironmentVariables(prefis);
+});
+
 // Add services to the container.
 
 // Mapper
@@ -72,6 +78,37 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var configEngine = app.Services.GetService(typeof(IMongoDatabaseSettings<Engine>)) as EngineDatabaseSettings;
+var configCar = app.Services.GetService(typeof(IMongoDatabaseSettings<Car>)) as CarDatabaseSettings;
+var configRedis = app.Services.GetService(typeof(CacheSettings)) as CacheSettings;
+
+var mongoIp = builder.Configuration.GetSection("CARSAPP_Mongo_Ip").Value;
+var mongoPort = builder.Configuration.GetSection("CARSAPP_Mongo_Port").Value;
+var redisIp = builder.Configuration.GetSection("CARSAPP_Redis_Ip").Value;
+var redisPort = builder.Configuration.GetSection("CARSAPP_Redis_Port").Value;
+
+if (!string.IsNullOrEmpty(mongoIp))
+{
+    configEngine.Ip = mongoIp;
+    configCar.Ip = mongoIp;
+}
+
+if (!string.IsNullOrEmpty(redisIp))
+{
+    configRedis.Host = redisIp;
+}
+
+if (!string.IsNullOrEmpty(mongoPort))
+{
+    configEngine.Port = int.Parse(mongoPort);
+    configCar.Port = configEngine.Port;
+}
+
+if (!string.IsNullOrEmpty(redisPort))
+{
+    configRedis.Port = redisPort;
+}
 
 var cache = app.Services.GetService<ICache<Engine>>();
 

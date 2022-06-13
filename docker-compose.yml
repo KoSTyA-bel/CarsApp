@@ -1,5 +1,23 @@
 version: '3'
 services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file: .env
+    container_name: sample_api
+    ports:
+      - 5069:80
+      - 5070:443
+    depends_on:
+      - mongodb
+      - redis
+    volumes:
+      - .\\certificates\:/https:ro
+    networks:
+      - front-tier
+      - back-tier
+
   mongodb:
     container_name: mongodb
     image: mongo:latest
@@ -11,6 +29,9 @@ services:
       - ${MONGO_HOST_DATA}/db:/data/db
     ports:
       - "27017:27017"
+    networks:
+      - back-tier
+
   redis:
     container_name: redis
     image: redis:latest
@@ -18,3 +39,19 @@ services:
       - "6379"
     ports:
       - "6379:6379"
+    networks:
+      - back-tier
+
+volumes:
+    db:
+        driver: local
+    api:
+        driver: local
+    mongo:
+        driver: local
+
+networks:
+  front-tier:
+    driver: bridge
+  back-tier:
+    driver: bridge
